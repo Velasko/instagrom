@@ -21,4 +21,9 @@ O sistema deve permitir que se faça as seguintes operações:
 Imposições sobre o trabalho: 
 	1. As informações dos usuários devem ser gravadas em uma instância de banco de dados relacional, criada pelo serviço Amazon RDS;
 	2. As fotos que serão enviadas devem ser armazenadas utilizando o serviço Amazon S3;
-	3. As curtidas que as imagens possuem deverão ser salvas usando o Amazon DynamoDB; 
+	3. As curtidas que as imagens possuem deverão ser salvas usando o Amazon DynamoDB;
+
+A implementação escolhiada é para Python 3.7
+
+Bibliotecas necessárias para a execução:
+ - Flask
