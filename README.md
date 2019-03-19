@@ -26,4 +26,4 @@ Imposições sobre o trabalho:
 A implementação escolhiada é para Python 3.7
 
 Bibliotecas necessárias para a execução:
- - Flask
+ - Flask (flask, flask-login)

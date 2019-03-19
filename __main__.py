@@ -1,4 +1,4 @@
-import flask
+import flask_login
 
-if __name__ == '__main__':
-	print('Starting instagrom')
+from . import app
+from . import pages
