@@ -84,3 +84,6 @@ class BasicTable():
 
 	def __str__(self):
 		return self.get().__str__()
+
+	def __len__(self):
+		return self.get().__len__()

@@ -36,7 +36,6 @@ class Database():
 #---START OF SQL QUERY METHODS BLOCK---------------------------------------
 	def get_table(self, table, obj_struct, **where):
 
-		print(where, 'in get_table')
 		where = self.get_where(where)
 
 		try:
