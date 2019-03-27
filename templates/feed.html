@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feed</title>
+</head>
+<body>
+
+{% if username %}
+    <h1>Aqui está o seu feed {{ username }}!</h1><br>
+
+    <ul>
+    {% for post in posts %}
+      <li>Foto: {{ post.image }} Usuário: {{ post.user }}</li>
+    {% endfor %}
+    </ul>
+
+{% else %}
+  <h1>Hello, John Doe!</h1>
+{% endif %}
+
+</body>
+</html>
