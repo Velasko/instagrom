@@ -18,4 +18,4 @@ class SigninForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    content = TextAreaField("content", validators=[DataRequired()])
+    image_name = StringField("image_name", validators=[DataRequired()])
