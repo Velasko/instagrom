@@ -1,0 +1,32 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+<h1>Olá, {{ session['username'] }}</h1>
+
+<form action="" method="POST">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        <label>Content</label>
+        {{ form.content(class="form-control",placeholder="Digite sua mensagem!") }}
+    </div>
+    <button type="submit" class="btn btn-default">Postar</button>
+
+    {% if posts %}
+        <p><h1>Posts Recentes</h1></p><br>
+        {% for post in posts|reverse %}
+                <div class="row">
+                <div class="col-md-2">
+                    <strong>{{ post.user }}</strong> postou:
+                </div>
+                <div class="col-md-8">
+                    {{ post.image }}
+                </div>
+                 <div class="col-md-2">
+                    {{ post.datetime  }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+</form>
+{% endblock %}

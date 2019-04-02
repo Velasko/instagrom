@@ -1,0 +1,33 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+    <div class="col-md-4 col-md-offset-4">
+        <h2>Login</h2>
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label for="">Name</label>
+                {{ form.name(class="form-control",placeholder="Digite seu nome") }}
+            </div>
+            <div class="form-group">
+                <label for="">Username</label>
+                {{ form.username(class="form-control",placeholder="Digite seu usuário") }}
+            </div>
+            <div class="form-group">
+                <label for="">Password</label>
+                {{ form.password(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="">Password Check</label>
+                {{ form.pass_check(class="form-control") }}
+            </div>
+             <div class="form-group">
+                <label for="">E-mail</label>
+                {{ form.email(class="form-control",placeholder="Digite seu e-mail") }}
+            </div>
+
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}

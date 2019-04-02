@@ -1,4 +1,6 @@
 *__pycache__*
 *.db*
 vInstagrom
-settings.py
+*settings.py
+*idea
+*flask-instagrom
