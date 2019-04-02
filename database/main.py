@@ -1,22 +1,22 @@
-import sqlite3
 import logging
 import datetime
-import threading
+import pymysql as sql
+
+from ..settings import database_auth as auth
 from ..system import slash
 
 class Database():
-	lock = threading.Lock()
-
-	def __init__(self, dbname):
+	def __init__(self):
 		logging.info('Starting database at {}'.format(datetime.datetime.now()))
-		directory = __file__[:-17]
-		self.filename = directory + slash + dbname
+		self.conn = None
 
 #---START OF DATABASE CONNECTION METHODS BLOCK---------------------------------------
 	def start(self):
 		# starting db connection
-		self.conn = sqlite3.connect(self.filename)
-		self.cursor = self.conn.cursor()
+		self.conn = sql.connect(
+			*auth,
+			connect_timeout=5
+			)
 #		 logging.info('Aplication database has connected')
 
 	def close(self):
@@ -26,7 +26,6 @@ class Database():
 #			logging.info('Aplication database has disconnected')
 
 			self.conn = None
-			self.cursor = None
 		else:
 #			logging.warning('Requested to close a database connection while not connected')
 			pass
@@ -41,7 +40,9 @@ class Database():
 		try:
 			self.start()
 
-			dbobject = self.cursor.execute(f'SELECT * FROM {table} {where}')
+			with self.conn.cursor() as cursor:
+				cursor.execute(f'SELECT * FROM {table} {where}')
+				dbobject = cursor.fetchall()
 
 			data = [obj_struct(*row) for row in dbobject]
 			return data
@@ -61,14 +62,15 @@ class Database():
 			pass
 
 		columns, attributes = list(data.keys()), list(data.values())
-		question_marks = ', '.join(['?' for _ in columns])
+		question_marks = ', '.join(['%s' for _ in columns])
 		columns = ", ".join(columns)
 
 		try:
 			self.start()
-			self.cursor.execute(f'INSERT INTO {table}({columns}) VALUES ({question_marks})', attributes)
+			with self.conn.cursor() as cursor:
+				cursor.execute(f'INSERT INTO {table}({columns}) VALUES ({question_marks})', attributes)
 			self.conn.commit()
-		except sqlite3.IntegrityError as e:
+		except sql.err.IntegrityError as e:
 			raise KeyError(e)
 		finally:
 			self.close()
@@ -86,7 +88,7 @@ class Database():
 			if key in keys:
 				where[key] = value
 			else:
-				set.append(f"{key} = ?")
+				set.append(f"{key} = %s")
 				attributes.append(value)
 
 		#Where has be the table keys
@@ -95,7 +97,8 @@ class Database():
 
 		try:
 			self.start()
-			self.cursor.execute(f"UPDATE {table} SET {set} {where}", attributes)
+			with self.conn.cursor() as cursor:
+				cursor.execute(f"UPDATE {table} SET {set} {where}", attributes)
 			self.conn.commit()
 		finally:
 			self.close()
@@ -141,8 +144,15 @@ class Database():
 
 if __name__ == '__main__':
 	print('START OF MAIN DB\n')
-	db = Database('database.db')
+	db = Database()
 	table = db.get_users()
+
+#	table.append('Velasco', 'luis', '1235', 'f@gmail', 'pfp', update=True)
+	for item in table:
+		print(item)
+
+
+	'''
 	tablel = db.get_likes()
 	print(tablel)
 #	items = table.get()
@@ -158,5 +168,5 @@ if __name__ == '__main__':
 	# 	for post in item.get_posts():
 	# 		print(post, 'in main')
 	# 	print()
-
+	'''
 	print('\nEND OF MAIN DB')
