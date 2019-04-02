@@ -1,5 +1,6 @@
 {% extends 'base.html'  %}
 
+
 {% block content %}
 <h1>Olá, {{ session['username'] }}</h1>
 
@@ -10,23 +11,32 @@
         {{ form.content(class="form-control",placeholder="Digite sua mensagem!") }}
     </div>
     <button type="submit" class="btn btn-default">Postar</button>
+</form>
 
     {% if posts %}
         <p><h1>Posts Recentes</h1></p><br>
         {% for post in posts|reverse %}
-                <div class="row">
+            <div class="row">
                 <div class="col-md-2">
                     <strong>{{ post.user }}</strong> postou:
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                     {{ post.image }}
                 </div>
-                 <div class="col-md-2">
-                    {{ post.datetime  }}
+                <div class="col-md-2">
+                    {{ post.datetime | datetimeformat }}
                 </div>
+                <div class="col-md-1">
+                    <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
+                      <button type="submit">Like</button>
+                    </form>
+                </div>
+                <div class="col-md-1">
+                    {{ post.get_likes() | length }} Likes
+                </div>
+
             </div>
         {% endfor %}
     {% endif %}
 
-</form>
 {% endblock %}
