@@ -141,7 +141,7 @@ class Database():
 #---START OF GET TABLE METHODS BLOCK---------------------------------------
 	def get_users(self, **where):
 		from . import basictable, user
-		table = basictable.BasicTable('users', user.User, **where)
+		table = user.UserTable('users', user.User, **where)
 		del basictable, user
 		return table
 
