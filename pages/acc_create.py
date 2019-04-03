@@ -6,10 +6,10 @@ from ..auth import new
 
 @app.route("/new_account", methods=['GET', 'POST'])
 def new_account():
+
 	if request.method == 'POST':
 		return new.create_account(request.form)
 
 	form = SigninForm()
-	print(form)
 
 	return render_template('signin.html', form=form)
