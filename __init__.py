@@ -1,3 +1,4 @@
+import os
 import flask
 import flask_login
 from .filters import datetimeformat
@@ -26,8 +27,13 @@ dynamo.init_app(app)
 
 #generating a new secret key:
 #python -c 'import os; print(os.urandom(16))'
-app.secret_key = b'\xc4>#\xa1E\x1e\xa0a1\x93\xbe?s\xea\xbf\xf1'
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 app.jinja_env.filters['datetimeformat'] = datetimeformat
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+
+from . import pages
+
+#if __name__ == 'instagrom':
+#	app.run()
