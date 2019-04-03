@@ -152,10 +152,11 @@ class Database():
 		return table
 
 	def get_likes(self, **where):
-		from . import basictable, like
-		table = basictable.BasicTable('likes', like.Like, **where)
-		del basictable, like
+		from . import dynamotable
+		table = dynamotable.DynamoTable(**where)
+		del dynamotable
 		return table
+
 
 
 #---END OF GET TABLE METHODS BLOCK---------------------------------------
@@ -163,11 +164,9 @@ class Database():
 if __name__ == '__main__':
 	print('START OF MAIN DB\n')
 	db = Database()
-	table = db.get_posts(id=4)
-	likes = db.get_likes()
+	table = db.get_
 
-#	table.append('Velasco', 'luis', '1235', 'f@gmail', 'pfp', update=True)
 	for item in table:
-		print(item.get_likes())
+		print(item)
 
 	print('\nEND OF MAIN DB')
