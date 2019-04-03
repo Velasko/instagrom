@@ -25,22 +25,22 @@
 
   <body>
 
+    {% block header %}
     <div class="container">
       <div class="header clearfix">
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="#">Home</a></li>
-            <li role="presentation"><a href="#">About</a></li>
-            {% if current_user.is_authenticated %}
+            {% if session['username'] %}
               <li role="presentation"><a href="{{ url_for('logout') }}">Logout</a></li>
             {% else %}
               <li role="presentation"><a href="{{ url_for('login') }}">Login</a></li>
             {% endif %}
-
           </ul>
         </nav>
         <h3 class="text-muted">Instagrom</h3>
     </div>
+    {% endblock %}
 
 
       {% with messages =  get_flashed_messages() %}

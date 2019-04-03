@@ -4,18 +4,35 @@
 {% block content %}
 <h1>Olá, {{ session['username'] }}</h1>
 
-<form class="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-    <p><input type="file" name="file"></p>
-    <button type="submit" class="btn btn-primary">Postar Foto</button>
+<form action="{{ url_for('user_feed') }}" method="POST" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="datetime-local"  name="startdate">
+    <input class="form-control mr-sm-2" type="datetime-local"  name="finaldate">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filtrar</button>
 </form>
 
+<form class="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-sm-6">
+            <p><input class="form-control mr-sm-2" type="file" name="file"></p>
+        </div>
+        <div class="col-sm-6">
+            <p><input class="form-control mr-sm-2" type="text" name="legend" placeholder="Legenda"></p>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Postar Foto</button>
+</form>
+
+    {% if filtered_posts %}
+    posts = filtered_posts
+    {% endif %}
 
     {% if posts %}
-        <p><h1>Posts Recentes</h1></p><br>
+        <p><h1>{{ post_title }}</h1></p><br>
         <table class="table table-striped">
             <tr>
                 <th>Usuário</th>
                 <th>Foto</th>
+                <th>Legenda</th>
                 <th>Postada</th>
                 <th>Curtir</th>
                 <th>Curtidas</th>
@@ -24,7 +41,8 @@
                 <tr>
                     <td><strong>{{ post.user }}</strong></td>
                     <td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100" width="200"></td>
-                    <td>{{ post.datetime | datetimeformat }}</td>
+                    <td>{{ post.text }}</td>
+                    <td>{{ post.datetime  | datetimeformat }}</td>
                     <td>
                         <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
                           <button type="submit">Like</button>
@@ -35,6 +53,5 @@
             {% endfor %}
         </table>
     {% endif %}
-
 
 {% endblock %}
