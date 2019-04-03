@@ -153,7 +153,7 @@ class Database():
 
 	def get_likes(self, **where):
 		from . import dynamotable
-		table = dynamotable.DynamoTable(**where)
+		table = dynamotable.DynamoTable('Likes', **where)
 		del dynamotable
 		return table
 
