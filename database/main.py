@@ -1,8 +1,9 @@
+import os
 import logging
 import datetime
 import pymysql as sql
 
-from ..settings import database_auth as auth
+#from ..settings import database_auth as auth
 from ..system import slash
 
 class Database():
@@ -14,7 +15,7 @@ class Database():
 	def start(self):
 		# starting db connection
 		self.conn = sql.connect(
-			*auth,
+			*os.getenv('NOSQL_AUTH').split(' '),
 			connect_timeout=5
 			)
 #		 logging.info('Aplication database has connected')
@@ -102,6 +103,23 @@ class Database():
 			self.conn.commit()
 		finally:
 			self.close()
+
+		def delete(self, obj):
+			raise NotImplemented
+
+			data = obj.serialize()
+
+			columns, attributes = list(data.keys()), list(data.values())
+			question_marks = ', '.join(['%s' for _ in columns])
+			columns = ", ".join(columns)
+
+			try:
+				self.start()
+				with self.conn.cursor() as cursor:
+					cursor.execute(f"")
+				self.conn.commit()
+			finally:
+				self.close()
 #---END OF SQL QUERY METHODS BLOCK---------------------------------------
 
 
@@ -145,28 +163,11 @@ class Database():
 if __name__ == '__main__':
 	print('START OF MAIN DB\n')
 	db = Database()
-	table = db.get_users()
+	table = db.get_posts(id=4)
+	likes = db.get_likes()
 
 #	table.append('Velasco', 'luis', '1235', 'f@gmail', 'pfp', update=True)
 	for item in table:
-		print(item)
+		print(item.get_likes())
 
-
-	'''
-	tablel = db.get_likes()
-	print(tablel)
-#	items = table.get()
-	user = table.get(nick='rhan')
-	print(user)
-	posts = user[0].get_posts()
-	print(posts)
-	like = posts[0].get_likes()
-	print(like)
-	# for item in table:
-	# 	print(item, 'in main')
-	# 	print()
-	# 	for post in item.get_posts():
-	# 		print(post, 'in main')
-	# 	print()
-	'''
 	print('\nEND OF MAIN DB')
