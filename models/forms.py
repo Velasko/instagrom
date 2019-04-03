@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Email, EqualTo
 
 
 class LoginForm(FlaskForm):
@@ -11,10 +11,10 @@ class LoginForm(FlaskForm):
 
 class SigninForm(FlaskForm):
     username = StringField("username", validators=[DataRequired()])
-    password = PasswordField("password", validators=[DataRequired()])
+    password = PasswordField("password", validators=[DataRequired(), EqualTo("pass_check", message='Passwords must match')])
     pass_check = PasswordField("pass_check", validators=[DataRequired()])
     name = StringField("name", validators=[DataRequired()])
-    email = StringField("email", validators=[DataRequired()])
+    email = StringField("email", validators=[DataRequired(), Email()])
 
 
 class PostForm(FlaskForm):
