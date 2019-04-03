@@ -1,6 +1,9 @@
-import boto3, string, random
-from .  settings import S3_BUCKET, S3_KEY, S3_SECRET
+import boto3, string, random, os
 from flask import session
+
+S3_BUCKET = os.getenv('S3_BUCKET')
+S3_KEY = os.getenv('S3_KEY')
+S3_SECRET = os.getenv('S3_SECRET')
 
 def _get_s3_resource():
     if S3_KEY and S3_SECRET:
