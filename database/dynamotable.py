@@ -68,3 +68,6 @@ class DynamoTable():
 
 	def __iter__(self):
 		return self.get().__iter__()
+
+	def __len__(self):
+		return self.get().__len__()
