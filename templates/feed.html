@@ -1,32 +1,40 @@
 {% extends 'base.html'  %}
 
+
 {% block content %}
 <h1>Olá, {{ session['username'] }}</h1>
 
-<form action="" method="POST">
-    {{ form.csrf_token }}
-    <div class="form-group">
-        <label>Content</label>
-        {{ form.content(class="form-control",placeholder="Digite sua mensagem!") }}
-    </div>
-    <button type="submit" class="btn btn-default">Postar</button>
+<form class="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <p><input type="file" name="file"></p>
+    <button type="submit" class="btn btn-primary">Postar Foto</button>
+</form>
+
 
     {% if posts %}
         <p><h1>Posts Recentes</h1></p><br>
-        {% for post in posts|reverse %}
-                <div class="row">
-                <div class="col-md-2">
-                    <strong>{{ post.user }}</strong> postou:
-                </div>
-                <div class="col-md-8">
-                    {{ post.image }}
-                </div>
-                 <div class="col-md-2">
-                    {{ post.datetime  }}
-                </div>
-            </div>
-        {% endfor %}
+        <table class="table table-striped">
+            <tr>
+                <th>Usuário</th>
+                <th>Foto</th>
+                <th>Postada</th>
+                <th>Curtir</th>
+                <th>Curtidas</th>
+            </tr>
+            {% for post in posts|reverse %}
+                <tr>
+                    <td><strong>{{ post.user }}</strong></td>
+                    <td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100" width="200"></td>
+                    <td>{{ post.datetime | datetimeformat }}</td>
+                    <td>
+                        <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
+                          <button type="submit">Like</button>
+                        </form>
+                    </td>
+                    <td>{{ post.get_likes() | length }} Likes</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
 
-</form>
+
 {% endblock %}
