@@ -1,4 +1,5 @@
 from boto3.dynamodb.conditions import Key, Attr
+from botocore.exceptions import ClientError
 
 from .. import database
 from .. import dynamo
@@ -53,10 +54,13 @@ class DynamoTable():
 		elif len(where) == 2:
 			try:
 				item = self.table.get_item(Key=where)['Item']
-			except KeyError:
-				table = []
+				return [self.struct(**item)]
 
-			return [self.struct(**item)]
+			except KeyError:
+				return []
+			except ClientError:
+				raise KeyError("Unexpected error! Maybe you used a wrong database key.")
+
 
 		return [self.struct(**item) for item in table]
 
@@ -71,3 +75,6 @@ class DynamoTable():
 
 	def __len__(self):
 		return self.get().__len__()
+
+	def __getitem__(self, index):
+		return self.get()[index]
