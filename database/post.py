@@ -5,6 +5,7 @@ from .basicitem import BasicItem
 @dataclasses.dataclass
 class Post(BasicItem):
 	user : str
+	text : str
 	image : str
 	datetime : str = None
 	id : int = 0
