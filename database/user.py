@@ -10,7 +10,7 @@ class User(BasicItem):
 	name : str
 	password : str
 	email : str
-	profile_picture : str
+	profile_picture : str = 'instagrom/placeholder.png'
 
 	def get_keys(self):
 		return 'nick'
