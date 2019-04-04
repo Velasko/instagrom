@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{%  block content %}
+    <div class="container">
+        <span><h3>Procurar por Usuário</h3></span>
+        <form class="search-form" action="{{ url_for('search') }}" method="POST">
+            <div class="input-group">
+                <input class="form-control" type="text" name = "username" placeholder="Search" />
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Procurar</button>
+                </div>
+            </div>
+        </form>
+
+        {% if users %}
+            <ul class="list-group">
+                {%  for user in users %}
+                    <span class="username">
+                        <a href="{{ url_for('profile', username=user.nick) }}"><li class="list-group-item">@{{ user.nick }}</li></a>
+                    </span>
+                {%  endfor %}
+            </ul>
+        {%  endif %}
+
+        <span><h3>Filtrar posts por intervalo de tempo</h3></span>
+        <form action="{{ url_for('user_feed') }}" method="POST" class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="datetime-local"  name="startdate">
+            <input class="form-control mr-sm-2" type="datetime-local"  name="finaldate">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Filtrar</button>
+        </form>
+    </div>
+
+{% endblock %}

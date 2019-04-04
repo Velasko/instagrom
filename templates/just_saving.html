@@ -1,35 +1,20 @@
-{%  for key, coluna in colunas.items() %}
-        {%  for post in coluna %}
-             <div class="post-content">
-                {%  if  loop.index %3 == 0 %}
-                    <div class="row">
-                {% endif %}
-                    <div class="col-sm-4">
-                        <div class="image-box" style="max-height: 250px; max-width: 250px">
-                            <img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100%" width="100%">
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">{{ post.text }}
-                            </div>
-                        </div>
-                        </div>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-6">
-                                    <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
-                                      <button type="submit">Like</button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    {{ post.get_likes() | length }} Likes
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {%  if  loop.index %3 == 0 %}
-                    </div>
-                {% endif %}
+<div class="col-sm-12">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Foto de Perfil</th>
+                          <th scope="col">Nome</th>
+                          <th scope="col">Usuário</th>
+                          <th scope="col">Publicações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                            <th scope="row"><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ user.profile_picture }}" height="100px" width="auto"></th>
+                            <th scope="row">{{ user.name }}</th>
+                            <th scope="row">{{ user.nick }}</th>
+                            <th scope="row">{{ user.get_posts() | length }}</th>
+                        </tr>
+                      </tbody>
+                    </table>
                 </div>
-        {%  endfor %}
-    {%  endfor %}

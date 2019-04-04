@@ -1,0 +1,14 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+
+    <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <div class="input-group">
+        <input class="form-control mr-sm-2" type="file" name="file">
+        <input class="form-control mr-sm-2" type="text" name="legend" placeholder="Escreva algo sobre essa foto">
+        <div class="input-group-btn" style="height: 103px">
+            <button class="btn btn-default" type="submit">Postar</button>
+        </div>
+    </div>
+    </form>
+{%  endblock %}

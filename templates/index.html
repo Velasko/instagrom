@@ -1,34 +1,66 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Instagrom</title>
 
-{% block content %}
-<div class="jumbotron">
-        <h1>Jumbotron heading</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
-      </div>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
 
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+    <!-- Bootstrap core CSS -->
+<link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
 
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
-        <div class="col-lg-6">
-          <h4>Subheading</h4>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/cover.css' ) }}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">Instagrom</h3>
+      <nav class="nav nav-masthead justify-content-center">
+            <a class="nav-link active" href="{{ url_for('index') }}">Home</a>
+            {% if session['username'] %}
+                <a class="nav-link" href="{{ url_for('user_feed') }}">Feed</a>
+                <a class="nav-link" href="{{ url_for('logout') }}">Sair</a>
+            {% else %}
+                <a class="nav-link" href="{{ url_for('login') }}">Entrar</a>
+                <a class="nav-link" href="{{ url_for('new_account') }}">Registre-se</a>
+            {% endif %}
+      </nav>
+    </div>
+  </header>
 
-          <h4>Subheading</h4>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">Instagrom</h1>
+    <p class="lead">Aplicação similar ao Instagram desenvolvida para a cadeira de computação em Nuvem. Utiliza-se dos serviços da Amazon AWS para armazenar a aplicação e seus dados.</p>
+  </main>
 
-          <h4>Subheading</h4>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
-      </div>
-
-{% endblock %}
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>Desenvolvido por <a href="https://github.com/rhanielmx" target="_blank">rhanielmx</a> e  <a href="https://github.com/Velasko" target="_blank">Velasko</a>.</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

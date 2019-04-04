@@ -1,28 +1,111 @@
 {% extends 'base.html'  %}
 
-{% block content %}
-<td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ user.profile_picture }}" height="100" width="200"></td>
+{% block navbar %}
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Instagrom</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="{{ url_for('user_feed') }}">Feed</a></li>
+          </li>
+          <li><a href="{{ url_for('update_profile', username=session['username']) }}">Atualizar Perfil</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url_for('search') }}"><span class="glyphicon glyphicon-search"></span> Pesquisar</a></li>
+            {% if session['username']  %}
+                <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            {%  else %}
+                <li><a href="{{ url_for('new_account') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {%  endif %}
+        </ul>
+      </div>
+    </nav>
+{%  endblock %}
 
-<table class="table table-striped">
-            <tr>
-                <th>Foto</th>
-                <th>Legenda</th>
-                <th>Postada</th>
-                <th>Curtir</th>
-                <th>Curtidas</th>
-            </tr>
-            {% for post in posts|reverse %}
-                <tr>
-                    <td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100" width="200"></td>
-                    <td>{{ post.text }}</td>
-                    <td>{{ post.datetime  | datetimeformat }}</td>
-                    <td>
-                        <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
-                          <button type="submit">Like</button>
-                        </form>
-                    </td>
-                    <td>{{ post.get_likes() | length }} Likes</td>
-                </tr>
-            {% endfor %}
-        </table>
+{% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="title" style="text-align: center;"><h3>Informações da conta</h3></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                            <th scope="col"></th>
+                        </tr>
+                        <tr>
+                          <th scope="col" style="text-align: center;">Foto de Perfil</th>
+                        </tr>
+                        <tr>
+                          <th scope="col"style="text-align: center;"><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ user.profile_picture }}" height="100px" width="auto"></th>
+                        </tr>
+                      </thead>
+                    </table>
+                </div>
+                <div class="col-sm-5">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        <tr>
+                          <th scope="col">Nome</th>
+                          <th scope="col">{{ user.name }}</th>
+                        </tr>
+                        <tr>
+                          <th scope="col">Usuário</th>
+                          <th scope="col">{{ user.nick }}</th>
+                        </tr>
+                        <tr>
+                          <th scope="col">Publicações</th>
+                          <th scope="col">{{ user.get_posts() | length }}</th>
+                        </tr>
+                      </thead>
+                    </table>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    {% if posts %}
+         <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="title"><h3>Publicações da conta</h3></span>
+                </div>
+            </div>
+            {%  for post in posts | reverse %}
+                {%  if loop.index0 %4 == 0 %}
+                    <div class="row">
+                {%  endif %}
+                    <div class="image-content">
+                        <div class="col-sm-3">
+                            <img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100%" width="100%">
+                            <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
+                                <button type="submit">Like</button>
+                                <span class="likes">{{ post.get_likes() | length }} Likes </span>
+                                <span class="posted-time">{{ post.datetime  | datetimeformat }}</span>
+                            </form>
+                            <p class="legend">
+                                {{ post.text }}
+                            </p>
+                        </div>
+                    </div>
+                {%  if loop.index %4 == 0 %}
+                    </div>
+                {%  endif %}
+            {%  endfor %}
+        </div>
+    {% endif %}
+
 {% endblock %}

@@ -2,19 +2,44 @@
     margin-top: 8px;
 }
 .image-content img {
-    max-height: 300px;
+    max-height: inherit;
     margin-top: 8px;
+}
+.photo {
+    min-height: 300px;
 }
 
 .image-content button {
-
+    margin-bottom: 10px;
 }
 
 .image-content span.username {
+    margin-top: 10px;
     color: black;
+}
+
+.image-content p.legend {
+    margin-top: 4px;
+    font-family: 'Roboto', sans-serif;
+    text-align: justify;
+    color: gray();
 }
 
 .image-content span.posted-time {
     color: gray;
     float: right;
+}
+.below-image{
+    margin-top: 3px;
+    border-top: lightgray 1px solid;
+}
+
+.account-info {
+    height: 200px;
+    border-bottom: lightgray 1px solid;
+}
+
+span.title {
+    font-family: 'Raleway',sans-serif; font-size: 62px; font-weight: 800; line-height: 72px; margin: 0 0 24px; text-align: center; text-transform: uppercase;
+    font-size: 100px;
 }
