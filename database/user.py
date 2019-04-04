@@ -52,7 +52,7 @@ class UserTable(BasicTable):
 				case_sensitive=case_sensitive,
 				)
 
-			if dist <= distance:
+			if dist < distance:
 				users_like[dist].append(user)
 
 		for values in users_like.values():
