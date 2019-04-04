@@ -17,5 +17,13 @@ class SigninForm(FlaskForm):
     email = StringField("email", validators=[DataRequired(), Email()])
 
 
+class UpdateForm(FlaskForm):
+    username = StringField("username")
+    password = PasswordField("password", validators=[DataRequired(), EqualTo("pass_check", message='Passwords must match')])
+    pass_check = PasswordField("pass_check", validators=[DataRequired()])
+    name = StringField("name")
+    email = StringField("email")
+
+
 class PostForm(FlaskForm):
     image_name = StringField("image_name", validators=[DataRequired()])
