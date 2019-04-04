@@ -38,32 +38,12 @@ def user_feed():
 		posts = filter_posts(posts, startdate, finaldate)
 		post_title = f'Posts Filtrados'
 
-	coluna0, coluna1, coluna2 = [], [], []
-
-	n_rows = math.ceil(posts.__len__() / 3)
-	count = 1
-	for post in posts:
-		count % n_rows
-		if (count % n_rows == 2):
-			coluna0.append(post)
-		elif (count % n_rows == 1):
-			coluna1.append(post)
-		elif (count % n_rows == 0):
-			coluna2.append(post)
-		count +=1
-
-	colunas = {
-				'0': coluna0,
-		   		'1': coluna1,
-		   		'2': coluna2
-			   }
-
 	if form.validate_on_submit():
 		post = {'user': session['username'], 'image': form.content.data}
 		posts.append(**post)
 		return redirect(url_for('user_feed'))
 
-	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title, colunas= colunas)
+	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title)
 
 @app.route('/like/<user>/<int:post_id>', methods=['GET', 'POST'])
 def like(user, post_id):
@@ -77,28 +57,40 @@ def like(user, post_id):
 		likes.delete(like)
 	return redirect(url_for('user_feed'))
 
+@app.route('/post')
+def post():
+	if 'username' in session:
+		return render_template('post.html')
+	else:
+		return render_template('login.html')
+
+
 @app.route('/upload', methods=['POST'])
 def upload():
 	user = session['username']
 
 	user_posts_count = db.get_posts(user=user).__len__() + 1
 
-	file = request.files['file']
-	file_extension = file.filename.split('.')[1]
-	file.filename = f'instagrom/{user}/{user}{user_posts_count}.{file_extension}'
+	if request.files['file']:
+		file = request.files['file']
+		file_extension = file.filename.split('.')[1]
+		file.filename = f'instagrom/{user}/{user}{user_posts_count}.{file_extension}'
 
-	legend = request.form['legend']
+		legend = request.form['legend']
 
-	my_bucket = get_bucket()
-	my_bucket.Object(file.filename).put(Body=file)
+		my_bucket = get_bucket()
+		my_bucket.Object(file.filename).put(Body=file)
 
-	posts = db.get_posts()
-	post = {
-		'user': user,
-		'image': file.filename,
-		'text': legend
-	}
+		posts = db.get_posts()
+		post = {
+			'user': user,
+			'image': file.filename,
+			'text': legend
+		}
 
-	posts.append(**post)
+		posts.append(**post)
+
+	else:
+		print('Nenhuma imagem selecionada!')
 
 	return redirect(url_for('user_feed'))
