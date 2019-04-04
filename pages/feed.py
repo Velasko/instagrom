@@ -6,7 +6,7 @@ from .. import app
 from ..database import database as db
 from ..models.forms import PostForm
 
-import datetime
+import datetime, math
 
 def filter_posts(posts, startdate, finaldate):
 
@@ -38,13 +38,32 @@ def user_feed():
 		posts = filter_posts(posts, startdate, finaldate)
 		post_title = f'Posts Filtrados'
 
+	coluna0, coluna1, coluna2 = [], [], []
+
+	n_rows = math.ceil(posts.__len__() / 3)
+	count = 1
+	for post in posts:
+		count % n_rows
+		if (count % n_rows == 2):
+			coluna0.append(post)
+		elif (count % n_rows == 1):
+			coluna1.append(post)
+		elif (count % n_rows == 0):
+			coluna2.append(post)
+		count +=1
+
+	colunas = {
+				'0': coluna0,
+		   		'1': coluna1,
+		   		'2': coluna2
+			   }
 
 	if form.validate_on_submit():
 		post = {'user': session['username'], 'image': form.content.data}
 		posts.append(**post)
 		return redirect(url_for('user_feed'))
 
-	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title)
+	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title, colunas= colunas)
 
 @app.route('/like/<user>/<int:post_id>', methods=['GET', 'POST'])
 def like(user, post_id):
@@ -56,7 +75,6 @@ def like(user, post_id):
 		likes.append(user=user, post=post_id)
 	else:
 		likes.delete(like)
-
 	return redirect(url_for('user_feed'))
 
 @app.route('/upload', methods=['POST'])

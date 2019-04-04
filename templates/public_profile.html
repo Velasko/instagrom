@@ -1,0 +1,28 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+<td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ user.profile_picture }}" height="100" width="200"></td>
+
+<table class="table table-striped">
+            <tr>
+                <th>Foto</th>
+                <th>Legenda</th>
+                <th>Postada</th>
+                <th>Curtir</th>
+                <th>Curtidas</th>
+            </tr>
+            {% for post in posts|reverse %}
+                <tr>
+                    <td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100" width="200"></td>
+                    <td>{{ post.text }}</td>
+                    <td>{{ post.datetime  | datetimeformat }}</td>
+                    <td>
+                        <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
+                          <button type="submit">Like</button>
+                        </form>
+                    </td>
+                    <td>{{ post.get_likes() | length }} Likes</td>
+                </tr>
+            {% endfor %}
+        </table>
+{% endblock %}

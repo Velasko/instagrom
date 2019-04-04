@@ -1,0 +1,18 @@
+{% extends 'base.html'  %}
+
+{% block content %}
+<form class="upload-form" action="{{ url_for('update_profile_pic') }}" method="POST" enctype="multipart/form-data">
+<div class="image-box" style="max-width: 200px; max-height: 200px">
+    <td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ user.profile_picture }}" height="100%", width="100%"></td>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <p><input class="form-control mr-sm-2" type="file" name="file"></p>
+    </div>
+    <div class="col-sm-6">
+        <p><input class="form-control mr-sm-2" type="password" name="password" placeholder="Confirme a senha para continuar"></p>
+    </div>
+</div>
+<button type="submit" class="btn btn-outline-success my-2 my-sm-0">Atualizar foto de perfil</button>
+</form>
+{% endblock %}

@@ -1,6 +1,5 @@
 {% extends 'base.html'  %}
 
-
 {% block content %}
 <h1>Olá, {{ session['username'] }}</h1>
 
@@ -27,31 +26,29 @@
     {% endif %}
 
     {% if posts %}
-        <p><h1>{{ post_title }}</h1></p><br>
-        <table class="table table-striped">
-            <tr>
-                <th>Usuário</th>
-                <th>Foto</th>
-                <th>Legenda</th>
-                <th>Postada</th>
-                <th>Curtir</th>
-                <th>Curtidas</th>
-            </tr>
-            {% for post in posts|reverse %}
-                <tr>
-                    <td><strong>{{ post.user }}</strong></td>
-                    <td><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100" width="200"></td>
-                    <td>{{ post.text }}</td>
-                    <td>{{ post.datetime  | datetimeformat }}</td>
-                    <td>
-                        <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
-                          <button type="submit">Like</button>
-                        </form>
-                    </td>
-                    <td>{{ post.get_likes() | length }} Likes</td>
-                </tr>
-            {% endfor %}
-        </table>
+         <div class="container">
+            {%  for post in posts | reverse %}
+                {%  if loop.index0 %3 == 0 %}
+                    <div class="row">
+                {%  endif %}
+                    <div class="image-content">
+                        <div class="col-sm-4">
+                            <a href="{{ url_for('profile', username=post.user) }}"><span class="username">@{{ post.user }}</span></a>
+                            <img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="100%" width="100%">
+                            <form action="{{ url_for('like', user=session['username'], post_id=post.id) }}">
+                                <button type="submit">Like</button>
+                                <span class="likes">{{ post.get_likes() | length }} Likes </span>
+                                <span class="posted-time">{{ post.datetime  | datetimeformat }}</span>
+                            </form>
+                            <p class="legend">
+                                {{ post.text }}
+                            </p>
+                        </div>
+                    </div>
+                {%  if loop.index %3 == 0 %}
+                    </div>
+                {%  endif %}
+            {%  endfor %}
+        </div>
     {% endif %}
-
 {% endblock %}
