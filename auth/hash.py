@@ -1,2 +1,4 @@
 def passwd_hash(passwd):
-	return passwd
+	sha_signature = \
+		hashlib.sha256(hash_string.encode()).hexdigest()
+	return sha_signature
