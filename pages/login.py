@@ -20,7 +20,7 @@ def login():
 			<p><input type=submit value=Login>
 		</form>
 		<form action="/new_account" method="get">
-    		<input type="submit" value="Don't have an account?"/>
+			<input type="submit" value="Don't have an account?"/>
 		</form>
 	'''
 
@@ -31,6 +31,8 @@ def login():
 
 @app.route('/logout')
 def logout():
+	if 'username' not in session:
+		return redirect(url_for('login'))
 	# remove the username from the session if it's there
 	session.pop('username', None)
 	session.pop('attempt', None)
