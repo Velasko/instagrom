@@ -1,10 +1,16 @@
 .image-content form {
     margin-top: 8px;
 }
-.image-content img {
+.image-content img, video {
     max-height: inherit;
     margin-top: 8px;
 }
+
+.image-content video {
+    max-height: 200px;
+    margin-top: 8px;
+}
+
 .photo {
     min-height: 300px;
 }
