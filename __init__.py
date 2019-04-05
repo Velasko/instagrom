@@ -4,7 +4,6 @@ import flask_login
 from .filters import datetimeformat
 
 from flask_dynamo import Dynamo
-from flask_debugtoolbar import DebugToolbarExtension
 
 app = flask.Flask(__name__)
 
@@ -33,9 +32,6 @@ app.jinja_env.filters['datetimeformat'] = datetimeformat
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
-
-toolbar = DebugToolbarExtension(app)
-toolbar.init_app(app)
 
 from . import pages
 
