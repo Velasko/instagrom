@@ -5,13 +5,19 @@ from .. import app
 from ..database import database as db
 from ..resources import get_bucket
 from ..models.forms import UpdateForm
+from ..filters import file_type
 
 @app.route('/profile/<username>')
 def profile(username):
     users = db.get_users()
     user = users.get(nick=username)[0]
     posts = db.get_posts(user=username)
-    return render_template('public_profile.html', user=user, posts=posts)
+
+    file_types = []
+    for post in posts:
+        file_types.append(file_type(post.image))
+
+    return render_template('public_profile.html', user=user, posts=posts, file_types=file_types)
 
 @app.route('/update_profile/<username>', methods=['GET', 'POST'])
 def update_profile(username):

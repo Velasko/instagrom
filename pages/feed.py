@@ -1,12 +1,13 @@
 from flask import session, render_template, redirect, url_for, request
 
 from ..resources import get_bucket
+from ..filters import file_type
 
 from .. import app
 from ..database import database as db
 from ..models.forms import PostForm
 
-import datetime, math
+import datetime
 
 def filter_posts(posts, startdate, finaldate):
 
@@ -43,10 +44,14 @@ def user_feed():
 		posts.append(**post)
 		return redirect(url_for('user_feed'))
 
-	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title)
+	file_types = []
+	for post in posts:
+		file_types.append(file_type(post.image))
 
-@app.route('/like/<user>/<int:post_id>', methods=['GET', 'POST'])
-def like(user, post_id):
+	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title, file_types=file_types)
+
+@app.route('/like/<user>/<int:post_id>/<redirect_to>', methods=['GET', 'POST'])
+def like(user, post_id, redirect_to):
 
 	likes = db.get_likes(post=post_id)
 	try:
@@ -55,7 +60,13 @@ def like(user, post_id):
 		likes.append(user=user, post=post_id)
 	else:
 		likes.delete(like)
-	return redirect(url_for('user_feed'))
+
+	redirect_user = db.get_posts(id=post_id)[0].user
+
+	if redirect_to == 'profile':
+		return redirect(url_for('profile', username=redirect_user))
+	else:
+		return redirect(url_for('user_feed'))
 
 @app.route('/post')
 def post():
