@@ -25,6 +25,9 @@ def filter_posts(posts, startdate, finaldate):
 
 @app.route("/feed", methods=['GET', 'POST'])
 def user_feed():
+	if 'username' not in session:
+		return redirect(url_for('login'))
+
 	form = PostForm()
 
 	posts = db.get_posts()
@@ -52,6 +55,8 @@ def user_feed():
 
 @app.route('/like/<user>/<int:post_id>/<redirect_to>', methods=['GET', 'POST'])
 def like(user, post_id, redirect_to):
+	if 'username' not in session:
+		return redirect(url_for('login'))
 
 	likes = db.get_likes(post=post_id)
 	try:
@@ -73,11 +78,13 @@ def post():
 	if 'username' in session:
 		return render_template('post.html')
 	else:
-		return render_template('login.html')
+		return redirect(url_for('login'))
 
 
 @app.route('/upload', methods=['POST'])
 def upload():
+	if 'username' not in session:
+		return redirect(url_for('login'))
 	user = session['username']
 
 	user_posts_count = db.get_posts(user=user).__len__() + 1

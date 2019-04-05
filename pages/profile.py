@@ -9,6 +9,7 @@ from ..filters import file_type
 
 @app.route('/profile/<username>')
 def profile(username):
+
     users = db.get_users()
     user = users.get(nick=username)[0]
     posts = db.get_posts(user=username)
@@ -21,6 +22,8 @@ def profile(username):
 
 @app.route('/update_profile/<username>', methods=['GET', 'POST'])
 def update_profile(username):
+    if 'username' not in session:
+        return redirect(url_for('login'))
     users = db.get_users()
     user = users.get(nick=username)[0]
 
@@ -30,6 +33,9 @@ def update_profile(username):
 
 @app.route('/update_profile_info/<username>', methods=['POST'])
 def update_profile_info(username):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    
     if request.method == 'POST':
         if request.form['password'] == request.form['pass_check']:
             file = request.files['file']
