@@ -11,7 +11,7 @@ def minimo(tab, X, Y, cost):
     elif Y > 0:
         return tab[X][Y-1] + 1
     else:
-        return 0
+        return cost
 
 def distance(word1, word2, case_sensitive = False, return_matrix=False, print_matrix=False):
     """This code shows how many operations would be necessary to change the word1 into word2.
