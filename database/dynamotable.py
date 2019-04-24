@@ -1,7 +1,6 @@
 from boto3.dynamodb.conditions import Key, Attr
 from botocore.exceptions import ClientError
 
-from .. import database
 from .. import dynamo
 
 from . import like
@@ -34,7 +33,6 @@ class DynamoTable():
 				#Then this get mustn't have a user != potato
 				if kwargs[key] != self.where[key]: 
 					raise AttributeError(f"Ambiguous where. Can't decide if '{key}' should be '{self.where[key]}' or '{kwargs[key]}'")
-
 
 		#Concatenating both wheres
 		where = {**self.where, **kwargs}

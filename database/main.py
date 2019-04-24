@@ -152,10 +152,15 @@ class Database():
 		return table
 
 	def get_likes(self, **where):
-		from . import dynamotable
-		table = dynamotable.DynamoTable('Likes', **where)
-		del dynamotable
+		from . import basictable, like
+		table = basictable.BasicTable('likes', like.Like, **where)
+		del basictable, post
 		return table
+
+		# from . import dynamotable
+		# table = dynamotable.DynamoTable('Likes', **where)
+		# del dynamotable
+		# return table
 
 
 
