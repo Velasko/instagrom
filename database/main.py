@@ -154,7 +154,7 @@ class Database():
 	def get_likes(self, **where):
 		from . import basictable, like
 		table = basictable.BasicTable('likes', like.Like, **where)
-		del basictable, post
+		del basictable, like
 		return table
 
 		# from . import dynamotable
