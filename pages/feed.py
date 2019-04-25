@@ -1,6 +1,5 @@
 from flask import session, render_template, redirect, url_for, request
 
-from ..resources import get_bucket
 from ..filters import file_type
 
 from .. import app

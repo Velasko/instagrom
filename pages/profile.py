@@ -3,7 +3,6 @@ from flask import render_template, session, request, redirect, url_for
 
 from .. import app
 from ..database import database as db
-from ..resources import get_bucket
 from ..models.forms import UpdateForm
 from ..filters import file_type
 
