@@ -5,6 +5,8 @@ from .filters import datetimeformat
 
 from flask_dynamo import Dynamo
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = __file__[:21] + os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
 app = flask.Flask(__name__)
 
 app.config['DYNAMO_TABLES'] = [
