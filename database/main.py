@@ -42,6 +42,7 @@ class Database():
 			self.start()
 
 			with self.conn.cursor() as cursor:
+				print(table, where)
 				cursor.execute(f'SELECT * FROM {table} {where}')
 				dbobject = cursor.fetchall()
 
@@ -104,19 +105,17 @@ class Database():
 		finally:
 			self.close()
 
-		def delete(self, obj):
-			table = self.get_table_name()
+	def delete(self, table, obj):
+		data = obj.serialize()
+		where = self.get_where(data)
 
-			data = obj.serialize()
-			where = self.get_where(data)
-
-			try:
-				self.start()
-				with self.conn.cursor() as cursor:
-					cursor.execute(f"DELETE FROM {table} {where}")
-				self.conn.commit()
-			finally:
-				self.close()
+		try:
+			self.start()
+			with self.conn.cursor() as cursor:
+				cursor.execute(f"DELETE FROM {table} {where}")
+			self.conn.commit()
+		finally:
+			self.close()
 #---END OF SQL QUERY METHODS BLOCK---------------------------------------
 
 
@@ -131,22 +130,11 @@ class Database():
 		for key, value in where.items():
 			if isinstance(value, str):
 				where[key] = f"'{value}'"
-		return f"WHERE {'AND '.join([f'{key}={value}' for key, value in where.items()])}"
+		return f"WHERE {' AND '.join([f'{key}={value}' for key, value in where.items()])}"
 #---END USEFUL METHODS BLOCK---------------------------------------
 
 
 #---START OF GET TABLE METHODS BLOCK---------------------------------------
-	def get_table_name(self, obj):
-		import like, user, post
-		if isinstance(obj, like.Like):
-			return 'likes'
-		elif isinstance(obj, user.User):
-			return 'users'
-		elif isinstance(obj, post.Post):
-			return 'posts'
-
-		raise NotImplemented("This object is not supported by this database")
-
 	def get_users(self, **where):
 		from . import basictable, user
 		table = user.UserTable('users', user.User, **where)
