@@ -90,11 +90,7 @@
                 {%  endif %}
                     <div class="image-content">
                         <div class="col-sm-3">
-                            {%  if file_types[loop.revindex0].split('/')[0] == 'image' %}
-                                <img src="https://storage.googleapis.com/instagrom/{{ post.image }}" height="200px" width="100%">
-                            {% else %}
-                                <video src="https://storage.googleapis.com/instagrom/{{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
-                            {% endif %}
+                            <img src="https://storage.googleapis.com/instagrom/{{ post.image }}" height="200px" width="100%">
                             <form action="{{ url_for('like', user=session['username'], post_id=post.id, redirect_to='profile') }}">
                                 <button class="btn btn-default" type="submit">
                                     <i class="fa fa-heart-o" style="font-size:16px;color:red"></i>
