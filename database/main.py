@@ -105,18 +105,15 @@ class Database():
 			self.close()
 
 		def delete(self, obj):
-			raise NotImplemented
+			table = self.get_table_name()
 
 			data = obj.serialize()
-
-			columns, attributes = list(data.keys()), list(data.values())
-			question_marks = ', '.join(['%s' for _ in columns])
-			columns = ", ".join(columns)
+			where = self.get_where(data)
 
 			try:
 				self.start()
 				with self.conn.cursor() as cursor:
-					cursor.execute(f"")
+					cursor.execute(f"DELETE FROM {table} {where}")
 				self.conn.commit()
 			finally:
 				self.close()
@@ -139,6 +136,17 @@ class Database():
 
 
 #---START OF GET TABLE METHODS BLOCK---------------------------------------
+	def get_table_name(self, obj):
+		import like, user, post
+		if isinstance(obj, like.Like):
+			return 'likes'
+		elif isinstance(obj, user.User):
+			return 'users'
+		elif isinstance(obj, post.Post):
+			return 'posts'
+
+		raise NotImplemented("This object is not supported by this database")
+
 	def get_users(self, **where):
 		from . import basictable, user
 		table = user.UserTable('users', user.User, **where)
