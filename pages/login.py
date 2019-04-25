@@ -27,7 +27,8 @@ def login():
 	if auth.status.attempts > 0:
 		page_base = "login failed" + page_base
 
-	return render_template('login.html',form=form)
+	return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 def logout():
