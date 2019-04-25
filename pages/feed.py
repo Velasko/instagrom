@@ -8,6 +8,8 @@ from ..database import database as db
 from ..models.forms import PostForm
 
 import datetime
+from google.cloud import storage
+
 
 def filter_posts(posts, startdate, finaldate):
 
@@ -87,17 +89,27 @@ def upload():
 		return redirect(url_for('login'))
 	user = session['username']
 
+
+
 	user_posts_count = db.get_posts(user=user).__len__() + 1
 
 	if request.files['file']:
+
 		file = request.files['file']
 		file_extension = file.filename.split('.')[1]
-		file.filename = f'instagrom/{user}/{user}{user_posts_count}.{file_extension}'
+		file.filename = f'{user}{user_posts_count}.{file_extension}'
 
 		legend = request.form['legend']
 
-		my_bucket = get_bucket()
-		my_bucket.Object(file.filename).put(Body=file)
+
+
+		gcs = storage.Client()
+		bucket = gcs.get_bucket('instagrom')
+		blob = bucket.blob(file.filename)
+		blob.upload_from_string(
+			file.read(),
+			content_type=file.content_type
+		)
 
 		posts = db.get_posts()
 		post = {
