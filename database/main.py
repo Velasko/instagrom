@@ -42,7 +42,6 @@ class Database():
 			self.start()
 
 			with self.conn.cursor() as cursor:
-				print(table, where)
 				cursor.execute(f'SELECT * FROM {table} {where}')
 				dbobject = cursor.fetchall()
 
