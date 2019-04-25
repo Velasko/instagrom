@@ -5,11 +5,11 @@ from .. import app
 from ..database import database as db
 from ..models.forms import UpdateForm
 from ..filters import file_type
+from ..auth import hash
 
 
 @app.route('/profile/<username>')
 def profile(username):
-
     users = db.get_users()
     user = users.get(nick=username)[0]
     posts = db.get_posts(user=username)
@@ -60,7 +60,7 @@ def update_profile_info(username):
                 'nick': username,
                 'name': name,
                 'email': email,
-                'password': password,
+                'password': hash.passwd_hash(password),
                 'profile_picture': file.filename
             }
 
@@ -68,5 +68,3 @@ def update_profile_info(username):
             users.append(**updated_user, update=True)
 
     return redirect(url_for('profile', username=username))
-
-
