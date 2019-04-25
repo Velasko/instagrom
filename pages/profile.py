@@ -1,11 +1,10 @@
 from flask import render_template, session, request, redirect, url_for
 
-
 from .. import app
 from ..database import database as db
-from ..resources import get_bucket
 from ..models.forms import UpdateForm
 from ..filters import file_type
+
 
 @app.route('/profile/<username>')
 def profile(username):
@@ -20,6 +19,7 @@ def profile(username):
 
     return render_template('public_profile.html', user=user, posts=posts, file_types=file_types)
 
+
 @app.route('/update_profile/<username>', methods=['GET', 'POST'])
 def update_profile(username):
     if 'username' not in session:
@@ -31,20 +31,25 @@ def update_profile(username):
 
     return render_template('private_profile.html', user=user, form=form)
 
+
 @app.route('/update_profile_info/<username>', methods=['POST'])
 def update_profile_info(username):
     if 'username' not in session:
         return redirect(url_for('login'))
-    
+
     if request.method == 'POST':
         if request.form['password'] == request.form['pass_check']:
             file = request.files['file']
             file_extension = file.filename.split('.')[1]
             file.filename = f'instagrom/{username}/profile_picture.{file_extension}'
 
-
-            my_bucket = get_bucket()
-            my_bucket.Object(file.filename).put(Body=file)
+            gcs = storage.Client()
+            bucket = gcs.get_bucket('instagrom')
+            blob = bucket.blob(file.filename)
+            blob.upload_from_string(
+                file.read(),
+                content_type=file.content_type
+            )
 
             name = request.form['name']
             email = request.form['email']
@@ -61,6 +66,6 @@ def update_profile_info(username):
             users = db.get_users()
             users.append(**updated_user, update=True)
 
-    return redirect(url_for('profile',username=username))
+    return redirect(url_for('profile', username=username))
 
 

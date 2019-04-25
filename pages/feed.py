@@ -1,6 +1,5 @@
 from flask import session, render_template, redirect, url_for, request
 
-from ..resources import get_bucket
 from ..filters import file_type
 
 from .. import app
@@ -35,8 +34,7 @@ def user_feed():
 	posts = db.get_posts()
 	likes = db.get_likes()
 
-	my_bucket = get_bucket()
-	summaries = my_bucket.objects.all()
+
 	post_title = 'Posts Recentes'
 	if request.form:
 		startdate = request.form['startdate']
@@ -53,7 +51,7 @@ def user_feed():
 	for post in posts:
 		file_types.append(file_type(post.image))
 
-	return render_template('feed.html', form=form, posts=posts, likes=likes, summaries=summaries, post_title=post_title, file_types=file_types)
+	return render_template('feed.html', form=form, posts=posts, likes=likes, post_title=post_title, file_types=file_types)
 
 @app.route('/like/<user>/<int:post_id>/<redirect_to>', methods=['GET', 'POST'])
 def like(user, post_id, redirect_to):
@@ -100,8 +98,6 @@ def upload():
 		file.filename = f'{user}{user_posts_count}.{file_extension}'
 
 		legend = request.form['legend']
-
-
 
 		gcs = storage.Client()
 		bucket = gcs.get_bucket('instagrom')
