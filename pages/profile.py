@@ -42,7 +42,7 @@ def update_profile_info(username):
         if request.form['password'] == request.form['pass_check']:
             file = request.files['file']
             file_extension = file.filename.split('.')[1]
-            file.filename = f'instagrom/{username}/profile_picture.{file_extension}'
+            file.filename = f'profile_pictures/{username}-profile_picture.{file_extension}'
 
             gcs = storage.Client()
             bucket = gcs.get_bucket('instagrom')

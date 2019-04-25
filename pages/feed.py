@@ -87,15 +87,13 @@ def upload():
 		return redirect(url_for('login'))
 	user = session['username']
 
-
-
 	user_posts_count = db.get_posts(user=user).__len__() + 1
 
 	if request.files['file']:
 
 		file = request.files['file']
 		file_extension = file.filename.split('.')[1]
-		file.filename = f'{user}{user_posts_count}.{file_extension}'
+		file.filename = f'{user}/{user}{user_posts_count}.{file_extension}'
 
 		legend = request.form['legend']
 
