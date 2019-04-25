@@ -46,6 +46,9 @@ class BasicTable():
 			else:
 				raise KeyError(e)
 
+	def delete(self, obj):
+		BasicTable.db.delete(self.table, obj)
+
 	def __iter__(self):
 		return self.get().__iter__()
 
