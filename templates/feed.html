@@ -21,9 +21,9 @@
                             <a href="{{ url_for('profile', username=post.user) }}"><span class="username">@{{ post.user }}</span></a>
                             <div class="photo">
                                 {%  if file_types[loop.revindex0].split('/')[0] == 'image' %}
-                                    <img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="200px" width="100%">
+                                    <img src="https://storage.googleapis.com/instagrom/{{ post.image }}" height="200px" width="100%">
                                 {% else %}
-                                    <video src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
+                                    <video src="https://storage.googleapis.com/instagrom/{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
                                 {% endif %}
                                 <p class="legend">
                                     {{ post.text }}

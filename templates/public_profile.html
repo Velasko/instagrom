@@ -43,11 +43,11 @@
                           <th scope="col" style="text-align: center;">Foto de Perfil</th>
                         </tr>
                         <tr>
-                          <th scope="col"style="text-align: center;"><img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ user.profile_picture }}" height="100px" width="auto"></th>
+                          <th scope="col"style="text-align: center;"><img src="https://storage.googleapis.com/instagrom/{{ user.profile_picture }}" height="100px" width="auto"></th>
                         </tr>
                       </thead>
                     </table>
-                </div>
+                </div>s
                 <div class="col-sm-5">
                     <table class="table">
                       <thead>
@@ -91,9 +91,9 @@
                     <div class="image-content">
                         <div class="col-sm-3">
                             {%  if file_types[loop.revindex0].split('/')[0] == 'image' %}
-                                <img src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" height="200px" width="100%">
+                                <img src="https://storage.googleapis.com/instagrom/{{ post.image }}" height="200px" width="100%">
                             {% else %}
-                                <video src="https://s3.us-east-2.amazonaws.com/toilter-s3-teste/{{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
+                                <video src="https://storage.googleapis.com/instagrom/{{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
                             {% endif %}
                             <form action="{{ url_for('like', user=session['username'], post_id=post.id, redirect_to='profile') }}">
                                 <button class="btn btn-default" type="submit">
