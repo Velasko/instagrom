@@ -5,6 +5,7 @@ from .. import app
 from ..database import database as db
 from ..models.forms import UpdateForm
 from ..filters import file_type
+from ..auth import hash
 
 
 @app.route('/profile/<username>')
@@ -60,7 +61,7 @@ def update_profile_info(username):
                 'nick': username,
                 'name': name,
                 'email': email,
-                'password': password,
+                'password': hash.passwd_hash(password),
                 'profile_picture': file.filename
             }
 
