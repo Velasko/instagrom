@@ -23,7 +23,7 @@
                                 {%  if file_types[loop.revindex0].split('/')[0] == 'image' %}
                                     <img src="https://storage.googleapis.com/instagrom/{{ post.image }}" height="200px" width="100%">
                                 {% else %}
-                                    <video src="https://storage.googleapis.com/instagrom/{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
+                                    <video src="https://storage.googleapis.com/instagrom/{{ post.image }}" type = "{{ file_types[loop.revindex0] }}" height="100%" width="100%" controls="controls">
                                 {% endif %}
                                 <p class="legend">
                                     {{ post.text }}
