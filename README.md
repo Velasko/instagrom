@@ -1,29 +1,29 @@
-Projeto da cadeira de Desenvolvimento de Software para a Nuvem
+Project for the Software development to the cloud course
 
-Este projeto se trata de uma aplicação que é uma rede social de fotos, similar ao instagram.
+This project is an a photo social media, similar to instagram.
 
-Os dados dos usuários a serem salvos são: 
-	● Nome Completo
-	● Nick
-	● Senha
+The user data to be saved are:
+	● Name
+	● Nickname
+	● Password
 	● E-mail
-	● Foto Pessoal
+	● Personal photo
+	
+The system must allow for the user to do the following operations:
+	1. create an user;
+	2. Alter user's data;
+	3. Publish photos;
+	4. Like/dislike other users photos;
+	5. See another user's profile and it's photos (All users can see the information of other users - there is no need to send a friend request or to set a profile public/private)
+	6. Search a user based on it's nickname;
+	7. List the posted photos in a time interval. For this, the inicial and final data must be provided to the filter.
 
-O sistema deve permitir que se faça as seguintes operações: 
-	1. Criar um usuário;
-	2. Alterar dados de um usuário;
-	3. Publicar fotos;
-	4. Curtir/Descutir fotos de usuários;
-	5. Visualizar perfil de outro usuário e suas fotos (todos podem ver informações dos outros usuários - não existe a necessidade de solicitar amizade ou deixar o perfil público ou privado);
-	6. Buscar um usuário com base em seu nick;
-	7. Listar fotos postadas em um intervalo de tempo. Para isso, devem ser fornecidas a Data Inicial e Data Final para filtro.
+Project impositions: 
+	1. The user information must be saved into a relational database, created by the Amazon RDS service; 
+	2. The uploaded photos must be saved on S3;
+	3. The image's likes must be saved using Amazon Dynamo DB.
 
-Imposições sobre o trabalho: 
-	1. As informações dos usuários devem ser gravadas em uma instância de banco de dados relacional, criada pelo serviço Amazon RDS;
-	2. As fotos que serão enviadas devem ser armazenadas utilizando o serviço Amazon S3;
-	3. As curtidas que as imagens possuem deverão ser salvas usando o Amazon DynamoDB;
+The chosen language for implementation is Python 3.7
 
-A implementação escolhiada é para Python 3.7
-
-Bibliotecas necessárias para a execução:
+Required libraries for the execution:
  - Flask (flask, flask-login)
